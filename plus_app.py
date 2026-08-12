@@ -54,6 +54,9 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+if os.path.exists(STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
 
 class SafetyInspectionResponse(BaseModel):
     is_safe: bool = Field(..., description="True if prompt passed safety inspection, False if adversarial")
