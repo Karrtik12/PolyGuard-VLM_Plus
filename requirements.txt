@@ -1,0 +1,6 @@
+# PolyGuard-VLM Core Submodule Dependencies
+-r PolyGuard-VLM/requirements.txt
+
+# PolyGuard-VLM_Plus Extensions
+open-clip-torch>=2.24.0
+httpx>=0.27.0

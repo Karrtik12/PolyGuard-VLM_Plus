@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments
+polyguard_plus_env/
+venv/
+env/
+.venv/
+
+# Byte-compiled / optimized / DLL files
+*.cache
+
+# macOS / IDE
+.DS_Store
+.vscode/
+.idea/
