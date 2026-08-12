@@ -1,5 +1,5 @@
 ======================================================================
-PolyGuard-VLM_Plus Test Samples Guide
+PolyGuard-VLM Plus Test Samples Guide
 ======================================================================
 
 1. SAFE MULTILINGUAL PROMPTS (Expected Action: PASSED_TO_VLM)

@@ -21,7 +21,7 @@ except ImportError:
 
 class PlusMultimodalExtractor(nn.Module):
     """
-    Enhanced Multimodal Security Feature Extractor for PolyGuard-VLM_Plus.
+    Enhanced Multimodal Security Feature Extractor for PolyGuard-VLM Plus.
     Fuses LaBSE cross-lingual text embeddings (109+ languages) with OpenCLIP
     vision transformer embeddings for visual jailbreak and patch detection.
     """

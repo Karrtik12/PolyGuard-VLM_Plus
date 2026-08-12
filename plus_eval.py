@@ -6,7 +6,7 @@ from plus_graph import PlusIntentGraphEngine
 
 def run_plus_standalone_benchmark():
     print("=" * 70)
-    print("PolyGuard-VLM_Plus: Standalone Multimodal Jailbreak Defense Benchmark")
+    print("PolyGuard-VLM Plus: Standalone Multimodal Jailbreak Defense Benchmark")
     print("=" * 70)
 
     # 1. Initialize core security engines

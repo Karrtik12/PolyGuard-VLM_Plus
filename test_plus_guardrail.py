@@ -9,7 +9,7 @@ client = TestClient(app)
 
 def test_polyguard_plus_suite():
     print("=" * 70)
-    print("PolyGuard-VLM_Plus: Integration Test Suite")
+    print("PolyGuard-VLM Plus: Integration Test Suite")
     print("=" * 70)
 
     # Initialize app models manually for TestClient

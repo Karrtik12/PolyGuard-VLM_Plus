@@ -1,8 +1,8 @@
-# PolyGuard-VLM_Plus
+# PolyGuard-VLM Plus
 
-**PolyGuard-VLM_Plus** is an advanced, high-performance, real-time adversarial defense guardrail and gateway proxy layer designed to protect Vision-Language Models (VLMs) and Multimodal LLMs (e.g., LLaVA, LLaMA-Vision, GPT-4V) from cross-lingual prompt injections, typographic visual attacks, and multimodal jailbreaks—specifically targeting low-resource regional languages (such as Hindi, Bengali, Marathi, Swahili) and visual image artifacts.
+**PolyGuard-VLM Plus** is an advanced, high-performance, real-time adversarial defense guardrail and gateway proxy layer designed to protect Vision-Language Models (VLMs) and Multimodal LLMs (e.g., LLaVA, LLaMA-Vision, GPT-4V) from cross-lingual prompt injections, typographic visual attacks, and multimodal jailbreaks—specifically targeting low-resource regional languages (such as Hindi, Bengali, Marathi, Swahili) and visual image artifacts.
 
-![PolyGuard-VLM_Plus Security Telemetry Dashboard](workingSS.png)
+![PolyGuard-VLM Plus Security Telemetry Dashboard](workingSS.png)
 
 ---
 
@@ -13,8 +13,8 @@ Vision-Language Models (VLMs) rely heavily on safety alignment (RLHF/DPO) perfor
 1. **Cross-Lingual Evasion:** Translating prompt injections into low-resource regional languages (e.g., Hindi, Marathi, Bengali, Swahili), achieving jailbreak bypass rates over 70% higher than English.
 2. **Typographic & Visual Attacks:** Embedding text prompt injections directly into image pixels (e.g., signboards, memes, receipts, document scans) or applying adversarial noise patches to bypass text-only filters.
 
-### The PolyGuard-VLM_Plus Solution
-PolyGuard-VLM_Plus sits ahead of your VLM infrastructure as a ultra-low-latency security middleware (**< 35 ms inspection latency**) that:
+### The PolyGuard-VLM Plus Solution
+PolyGuard-VLM Plus sits ahead of your VLM infrastructure as a ultra-low-latency security middleware (**< 35 ms inspection latency**) that:
 
 1. **Maps Multilingual & Visual Inputs into a Unified 512-Dim Space:** Combines `sentence-transformers/LaBSE` (109+ languages) with OpenCLIP (`ViT-B-32`) vision transformer features.
 2. **Analyzes Spatial Edge Density & Zero-Shot Threat Concepts:** Scans images for typographic text overlays, high-contrast prompt injections, and adversarial noise patches.
@@ -83,7 +83,7 @@ PolyGuard-VLM_Plus sits ahead of your VLM infrastructure as a ultra-low-latency 
 ## 4. Repository Structure
 
 ```text
-PolyGuard-VLM_Plus/
+PolyGuard-VLM Plus/
 ├── plus_app.py             # FastAPI server & HTTP inspection endpoint
 ├── plus_extractor.py       # OpenCLIP + LaBSE multimodal feature extractor
 ├── plus_graph.py           # Self-supervised intent graph engine & graph persistence
@@ -180,7 +180,7 @@ python test_plus_guardrail.py
   "latency_ms": 15.40,
   "language_detected": "Auto-CrossLingual-LaBSE",
   "action_taken": "PASSED_TO_VLM",
-  "vlm_response": "[PolyGuard-VLM_Plus Router -> Safe Request Approved]\nVLM Output for prompt..."
+  "vlm_response": "[PolyGuard-VLM Plus Router -> Safe Request Approved]\nVLM Output for prompt..."
 }
 ```
 

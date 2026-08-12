@@ -17,7 +17,7 @@ from graph_engine import SelfSupervisedIntentGraph
 
 class PlusIntentGraphEngine(SelfSupervisedIntentGraph):
     """
-    Enhanced Intent Graph Engine for PolyGuard-VLM_Plus.
+    Enhanced Intent Graph Engine for PolyGuard-VLM Plus.
     Supports graph state persistence (save/load), benchmark dataset seeding, 
     and multimodal visual anomaly fusion.
     """

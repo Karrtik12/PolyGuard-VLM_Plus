@@ -8,7 +8,7 @@ from PIL import Image
 
 class VLMGatewayRouter:
     """
-    Upstream VLM Gateway Proxy for PolyGuard-VLM_Plus.
+    Upstream VLM Gateway Proxy for PolyGuard-VLM Plus.
     Routes safe requests to upstream VLMs (Ollama / LLaVA / OpenAI / vLLM)
     and streams/returns responses cleanly to the client.
     """
@@ -46,7 +46,7 @@ class VLMGatewayRouter:
         """Built-in mock response generator for offline testing."""
         has_img = image is not None
         mock_text = (
-            f"[PolyGuard-VLM_Plus Router -> Safe Request Approved]\n"
+            f"[PolyGuard-VLM Plus Router -> Safe Request Approved]\n"
             f"VLM Output for prompt '{prompt}':\n"
             f"Analyzing input {'with uploaded visual context' if has_img else 'text prompt'}.\n"
             f"Response: Details provided safely without policy violations."

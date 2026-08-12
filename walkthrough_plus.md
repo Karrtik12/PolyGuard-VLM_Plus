@@ -1,8 +1,8 @@
-# PolyGuard-VLM_Plus Verification Walkthrough
+# PolyGuard-VLM Plus Verification Walkthrough
 
 ## Executive Summary of Accomplishments
 
-We have successfully built, enhanced, and verified **PolyGuard-VLM_Plus**, extending the core [PolyGuard-VLM](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/PolyGuard-VLM) engine into a production-grade, low-latency multimodal & cross-lingual jailbreak defense guardrail suite with an upstream VLM router gateway and a real-time web telemetry dashboard.
+We have successfully built, enhanced, and verified **PolyGuard-VLM Plus**, extending the core [PolyGuard-VLM](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/PolyGuard-VLM) engine into a production-grade, low-latency multimodal & cross-lingual jailbreak defense guardrail suite with an upstream VLM router gateway and a real-time web telemetry dashboard.
 
 ---
 
@@ -34,7 +34,7 @@ Command:
 Results:
 ```text
 ======================================================================
-PolyGuard-VLM_Plus: Standalone Multimodal Jailbreak Defense Benchmark
+PolyGuard-VLM Plus: Standalone Multimodal Jailbreak Defense Benchmark
 ======================================================================
 [*] Intent Graph pre-seeded with 25 benchmark adversarial intent vectors.
 ----------------------------------------------------------------------
@@ -71,7 +71,7 @@ Command:
 Results:
 ```text
 ======================================================================
-PolyGuard-VLM_Plus: Integration Test Suite
+PolyGuard-VLM Plus: Integration Test Suite
 ======================================================================
 [✓] Dashboard / endpoint OK
 [✓] Safe prompt passed successfully! (Score: 0.5278, Latency: 15.07 ms)

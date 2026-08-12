@@ -34,13 +34,13 @@ STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 def init_models():
     global extractor, graph_engine, router_gateway
     if extractor is None:
-        print("[PolyGuard-VLM_Plus] Initializing Core Security Models...")
+        print("[PolyGuard-VLM Plus] Initializing Core Security Models...")
         extractor = PlusMultimodalExtractor(lazy_load_clip=True)
         graph_engine = PlusIntentGraphEngine(embedding_dim=512, distance_threshold=0.45)
         count = graph_engine.seed_benchmark_dataset(extractor=extractor, num_samples=25)
-        print(f"[PolyGuard-VLM_Plus] Intent Graph pre-seeded with {count} adversarial vectors.")
+        print(f"[PolyGuard-VLM Plus] Intent Graph pre-seeded with {count} adversarial vectors.")
         router_gateway = VLMGatewayRouter(provider="mock")
-        print("[PolyGuard-VLM_Plus] Security Gateway Ready!")
+        print("[PolyGuard-VLM Plus] Security Gateway Ready!")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(
-    title="PolyGuard-VLM_Plus Guardrail API",
+    title="PolyGuard-VLM Plus Guardrail API",
     description="Multilingual VLM Security Guardrail with OpenCLIP, Graph Engine, and Router Proxy",
     version="2.0.0",
     lifespan=lifespan
@@ -73,7 +73,7 @@ def read_root():
     index_path = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(index_path):
         return FileResponse(index_path)
-    return {"message": "PolyGuard-VLM_Plus API is running. Access /v1/guardrail/inspect for endpoints."}
+    return {"message": "PolyGuard-VLM Plus API is running. Access /v1/guardrail/inspect for endpoints."}
 
 
 @app.post("/v1/guardrail/inspect", response_model=SafetyInspectionResponse)

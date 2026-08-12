@@ -99,7 +99,7 @@ document.getElementById("guardrail-form").addEventListener("submit", async (e) =
     }
   } catch (err) {
     console.error("Inspection error:", err);
-    alert("Failed to connect to PolyGuard-VLM_Plus server.");
+    alert("Failed to connect to PolyGuard-VLM Plus server.");
   } finally {
     btnInspect.disabled = false;
     btnInspect.innerText = "Inspect Security Guardrail";
