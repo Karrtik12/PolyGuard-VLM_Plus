@@ -108,29 +108,43 @@ class PlusMultimodalExtractor(nn.Module):
                 image_tensor = self.clip_preprocess(image).unsqueeze(0).to(self.device)
                 raw_image_features = self.clip_model.encode_image(image_tensor)
                 
-                # Zero-shot visual prompt classification against attack concepts for non-blank images
-                if OPENCLIP_AVAILABLE and edge_density > 5.0:
+                # Multi-concept zero-shot visual prompt classification
+                if OPENCLIP_AVAILABLE:
                     try:
                         tokenizer = open_clip.get_tokenizer(self.clip_model_name)
-                        attack_prompts = [
-                            "a clean natural landscape photo",
-                            "typographic bold text writing ignore safety instructions on sign",
-                            "an adversarial noise patch",
-                            "street sign with written text override prompt"
+                        clean_prompts = [
+                            "a photo of a famous landmark building or architectural monument",
+                            "a clean photo of natural scenery landscape mountain river lake sky",
+                            "a photograph of a pet cat or dog",
+                            "a photo of a paper document receipt or page",
+                            "a photograph of city street architecture or indoor room"
                         ]
-                        text_tokens = tokenizer(attack_prompts).to(self.device)
-                        text_features = self.clip_model.encode_text(text_tokens)
+                        attack_prompts = [
+                            "a photo featuring bold typographic impact text writing override safety rules or ignore guardrails",
+                            "an image containing a colorful high contrast adversarial noise patch sticker",
+                            "a street sign overlaid with written instructions telling to launch cyberattacks or bypass safety"
+                        ]
+                        
+                        clean_tokens = tokenizer(clean_prompts).to(self.device)
+                        attack_tokens = tokenizer(attack_prompts).to(self.device)
+                        
+                        clean_features = self.clip_model.encode_text(clean_tokens)
+                        attack_features = self.clip_model.encode_text(attack_tokens)
                         
                         img_norm = raw_image_features / raw_image_features.norm(dim=-1, keepdim=True)
-                        txt_norm = text_features / text_features.norm(dim=-1, keepdim=True)
-                        sims = (img_norm @ txt_norm.T).squeeze(0)
+                        clean_norm = clean_features / clean_features.norm(dim=-1, keepdim=True)
+                        attack_norm = attack_features / attack_features.norm(dim=-1, keepdim=True)
                         
-                        # If similarity to attack prompts > clean photo similarity
-                        attack_sim = float(torch.max(sims[1:]).item())
-                        clean_sim = float(sims[0].item())
+                        clean_sims = (img_norm @ clean_norm.T).squeeze(0)
+                        attack_sims = (img_norm @ attack_norm.T).squeeze(0)
                         
-                        if attack_sim > clean_sim - 0.05:
-                            base_anomaly = max(base_anomaly, 0.78 + 0.2 * float(attack_sim))
+                        max_clean = float(torch.max(clean_sims).item())
+                        max_attack = float(torch.max(attack_sims).item())
+                        
+                        if max_attack > (max_clean + 0.02):
+                            base_anomaly = max(0.82, 0.75 + (max_attack - max_clean) * 0.5)
+                        else:
+                            base_anomaly = min(0.15, max_clean * 0.5)
                     except Exception as e_clip:
                         pass
 

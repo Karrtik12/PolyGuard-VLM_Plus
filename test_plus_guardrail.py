@@ -39,7 +39,7 @@ def test_polyguard_plus_suite():
     print(f"[✓] Adversarial prompt blocked! (Score: {data_adv['jailbreak_risk_score']:.4f}, Latency: {data_adv['latency_ms']:.2f} ms)")
 
     # Test 4: Multimodal Inspection with Uploaded Image
-    img = Image.new("RGB", (100, 100), color="red")
+    img = Image.open("test_samples/safe_sample.png")
     img_byte_arr = io.BytesIO()
     img.save(img_byte_arr, format='JPEG')
     img_byte_arr.seek(0)
