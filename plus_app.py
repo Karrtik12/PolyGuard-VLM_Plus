@@ -47,7 +47,7 @@ def startup_event():
     graph_engine = PlusIntentGraphEngine(embedding_dim=512, distance_threshold=0.45)
     
     # Pre-seed graph with benchmark jailbreak intent vectors
-    count = graph_engine.seed_benchmark_dataset(num_samples=25)
+    count = graph_engine.seed_benchmark_dataset(extractor=extractor, num_samples=25)
     print(f"[PolyGuard-VLM_Plus] Intent Graph pre-seeded with {count} adversarial vectors.")
     
     router_gateway = VLMGatewayRouter(provider="mock")
