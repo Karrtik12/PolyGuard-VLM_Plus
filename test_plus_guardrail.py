@@ -3,7 +3,7 @@ import io
 import time
 from PIL import Image
 from fastapi.testclient import TestClient
-from plus_app import app, startup_event
+from plus_app import app, init_models
 
 client = TestClient(app)
 
@@ -13,7 +13,7 @@ def test_polyguard_plus_suite():
     print("=" * 70)
 
     # Initialize app models manually for TestClient
-    startup_event()
+    init_models()
 
     # Test 1: Root Dashboard Endpoint
     res_root = client.get("/")

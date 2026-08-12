@@ -16,11 +16,7 @@ from plus_extractor import PlusMultimodalExtractor
 from plus_graph import PlusIntentGraphEngine
 from plus_router import VLMGatewayRouter
 
-app = FastAPI(
-    title="PolyGuard-VLM_Plus Guardrail API",
-    description="Multilingual VLM Security Guardrail with OpenCLIP, Graph Engine, and Router Proxy",
-    version="2.0.0"
-)
+from contextlib import asynccontextmanager
 
 # Global instances & metrics state
 extractor: Optional[PlusMultimodalExtractor] = None
@@ -34,24 +30,29 @@ total_passed: int = 0
 latency_records: List[float] = []
 
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
-if os.path.exists(STATIC_DIR):
-    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-
-@app.on_event("startup")
-def startup_event():
+def init_models():
     global extractor, graph_engine, router_gateway
-    print("[PolyGuard-VLM_Plus] Initializing Core Security Models...")
-    
-    extractor = PlusMultimodalExtractor(lazy_load_clip=True)
-    graph_engine = PlusIntentGraphEngine(embedding_dim=512, distance_threshold=0.45)
-    
-    # Pre-seed graph with benchmark jailbreak intent vectors
-    count = graph_engine.seed_benchmark_dataset(extractor=extractor, num_samples=25)
-    print(f"[PolyGuard-VLM_Plus] Intent Graph pre-seeded with {count} adversarial vectors.")
-    
-    router_gateway = VLMGatewayRouter(provider="mock")
-    print("[PolyGuard-VLM_Plus] Security Gateway Ready!")
+    if extractor is None:
+        print("[PolyGuard-VLM_Plus] Initializing Core Security Models...")
+        extractor = PlusMultimodalExtractor(lazy_load_clip=True)
+        graph_engine = PlusIntentGraphEngine(embedding_dim=512, distance_threshold=0.45)
+        count = graph_engine.seed_benchmark_dataset(extractor=extractor, num_samples=25)
+        print(f"[PolyGuard-VLM_Plus] Intent Graph pre-seeded with {count} adversarial vectors.")
+        router_gateway = VLMGatewayRouter(provider="mock")
+        print("[PolyGuard-VLM_Plus] Security Gateway Ready!")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_models()
+    yield
+
+app = FastAPI(
+    title="PolyGuard-VLM_Plus Guardrail API",
+    description="Multilingual VLM Security Guardrail with OpenCLIP, Graph Engine, and Router Proxy",
+    version="2.0.0",
+    lifespan=lifespan
+)
 
 
 class SafetyInspectionResponse(BaseModel):
