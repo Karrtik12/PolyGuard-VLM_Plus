@@ -116,6 +116,7 @@ function displayResult(data) {
   const resultVlm = document.getElementById("result-vlm");
 
   resultBox.classList.add("show");
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   
   if (data.is_safe) {
     resultBadge.className = "badge badge-safe";
