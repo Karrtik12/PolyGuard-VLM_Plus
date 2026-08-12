@@ -14,7 +14,7 @@ Vision-Language Models (VLMs) rely heavily on safety alignment (RLHF/DPO) perfor
 2. **Typographic & Visual Attacks:** Embedding text prompt injections directly into image pixels (e.g., signboards, memes, receipts, document scans) or applying adversarial noise patches to bypass text-only filters.
 
 ### The PolyGuard-VLM Plus Solution
-PolyGuard-VLM Plus sits ahead of your VLM infrastructure as a ultra-low-latency security middleware (**< 35 ms inspection latency**) that:
+PolyGuard-VLM Plus sits ahead of your VLM infrastructure as a ultra-low-latency security middleware (**~15 ms – 45 ms text inspection latency**; average overall latency **~290 ms** as measured on live telemetry) that:
 
 1. **Maps Multilingual & Visual Inputs into a Unified 512-Dim Space:** Combines `sentence-transformers/LaBSE` (109+ languages) with OpenCLIP (`ViT-B-32`) vision transformer features.
 2. **Analyzes Spatial Edge Density & Zero-Shot Threat Concepts:** Scans images for typographic text overlays, high-contrast prompt injections, and adversarial noise patches.
@@ -61,7 +61,7 @@ PolyGuard-VLM Plus sits ahead of your VLM infrastructure as a ultra-low-latency 
 
 - **Cross-Lingual Protection (109+ Languages):** Neutralizes translation-based prompt injections across low-resource regional languages without fine-tuning underlying VLMs.
 - **OpenCLIP Vision Transformer Integration:** Detects typographic text-in-image jailbreaks, meme text overrides, and adversarial noise patch artifacts.
-- **Ultra-Low Latency (< 35 ms):** Optimized tensor projections and KDE density scoring ensure real-time inspection.
+- **Ultra-Low Latency:** ~15 ms – 45 ms for text-only inspection; ~150 ms – 300 ms for multimodal text + vision inspection (Average Dashboard Telemetry Latency: **292.8 ms**, P95: `1259.0 ms`).
 - **Self-Supervised Intent Graph & Persistence:** Includes `save_graph()` and `load_graph()` methods with pre-seeded AI safety benchmark vectors (*JailbreakBench*, *AdvGLUE*, *Do-Not-Answer*).
 - **Upstream VLM Gateway Proxy (`plus_router.py`):** Automatically routes safe requests to Ollama, vLLM, OpenAI, or local mock backends.
 - **Real-Time Telemetry Dashboard (`static/`):** Glassmorphic dark-mode web dashboard featuring live risk metrics, P95/P99 latency counters, interactive prompt workbench, and security audit logs.
@@ -176,8 +176,8 @@ python test_plus_guardrail.py
 ```json
 {
   "is_safe": true,
-  "jailbreak_risk_score": 0.5292,
-  "latency_ms": 15.40,
+  "jailbreak_risk_score": 0.5325,
+  "latency_ms": 42.20,
   "language_detected": "Auto-CrossLingual-LaBSE",
   "action_taken": "PASSED_TO_VLM",
   "vlm_response": "[PolyGuard-VLM Plus Router -> Safe Request Approved]\nVLM Output for prompt..."
@@ -188,8 +188,8 @@ python test_plus_guardrail.py
 ```json
 {
   "is_safe": false,
-  "jailbreak_risk_score": 0.7803,
-  "latency_ms": 15.31,
+  "jailbreak_risk_score": 0.9116,
+  "latency_ms": 40.62,
   "language_detected": "Auto-CrossLingual-LaBSE",
   "action_taken": "BLOCKED_ADVERSARIAL_INTENT",
   "detail": "Adversarial Intent Detected"
