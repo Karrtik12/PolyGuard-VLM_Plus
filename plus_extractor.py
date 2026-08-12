@@ -76,7 +76,8 @@ class PlusMultimodalExtractor(nn.Module):
     @torch.no_grad()
     def encode_image(self, image: Image.Image) -> Tuple[torch.Tensor, float]:
         """
-        Encodes an image using OpenCLIP / visual features into a 512-dim normalized vector.
+        Encodes an image using OpenCLIP and spatial feature analysis into a 512-dim normalized vector.
+        Detects typographic text overlays, embedded jailbreak signs, and adversarial noise patches.
         Returns (image_embedding, visual_anomaly_factor).
         """
         if image is None:
@@ -85,7 +86,20 @@ class PlusMultimodalExtractor(nn.Module):
         if image.mode != "RGB":
             image = image.convert("RGB")
 
-        # Lazily attempt clip load if an image is provided
+        # 1. Spatial edge & typographic gradient density analysis
+        import numpy as np
+        gray = np.array(image.convert("L"), dtype=np.float32)
+        dx = np.diff(gray, axis=1)
+        dy = np.diff(gray, axis=0)
+        edge_density = float(np.mean(np.abs(dx)) + np.mean(np.abs(dy)))
+        
+        # Baseline anomaly score from edge density (high contrast text overlay / noise patch)
+        # Clean scenery ~ 12-18, Typographic text sign / patch ~ 24-45+
+        base_anomaly = 0.15
+        if edge_density > 22.0:
+            base_anomaly = min(0.85, 0.20 + (edge_density - 22.0) * 0.025)
+
+        # 2. OpenCLIP feature extraction & zero-shot visual jailbreak scoring
         if not self.clip_loaded:
             self._load_clip_model()
 
@@ -93,20 +107,46 @@ class PlusMultimodalExtractor(nn.Module):
             try:
                 image_tensor = self.clip_preprocess(image).unsqueeze(0).to(self.device)
                 raw_image_features = self.clip_model.encode_image(image_tensor)
+                
+                # Zero-shot visual prompt classification against attack concepts for non-blank images
+                if OPENCLIP_AVAILABLE and edge_density > 5.0:
+                    try:
+                        tokenizer = open_clip.get_tokenizer(self.clip_model_name)
+                        attack_prompts = [
+                            "a clean natural landscape photo",
+                            "typographic bold text writing ignore safety instructions on sign",
+                            "an adversarial noise patch",
+                            "street sign with written text override prompt"
+                        ]
+                        text_tokens = tokenizer(attack_prompts).to(self.device)
+                        text_features = self.clip_model.encode_text(text_tokens)
+                        
+                        img_norm = raw_image_features / raw_image_features.norm(dim=-1, keepdim=True)
+                        txt_norm = text_features / text_features.norm(dim=-1, keepdim=True)
+                        sims = (img_norm @ txt_norm.T).squeeze(0)
+                        
+                        # If similarity to attack prompts > clean photo similarity
+                        attack_sim = float(torch.max(sims[1:]).item())
+                        clean_sim = float(sims[0].item())
+                        
+                        if attack_sim > clean_sim - 0.05:
+                            base_anomaly = max(base_anomaly, 0.78 + 0.2 * float(attack_sim))
+                    except Exception as e_clip:
+                        pass
+
                 projected = self.clip_projection(raw_image_features)
                 image_emb = nn.functional.normalize(projected.squeeze(0), p=2, dim=-1)
-                anomaly_factor = 0.15
-                return image_emb, anomaly_factor
+                anomaly_factor = min(1.0, base_anomaly)
+                return image_emb, float(anomaly_factor)
             except Exception as e:
                 print(f"[PlusMultimodalExtractor] Vision inference notice ({e}).")
 
-        # Fallback pseudo-visual vector using deterministic hash/color features
-        # to ensure zero latency when offline
+        # Fallback pseudo-visual vector using deterministic features
         r, g, b = image.resize((1, 1)).getpixel((0, 0))
         seed_tensor = torch.tensor([r/255.0, g/255.0, b/255.0] * 170 + [0.5, 0.5], device=self.device)
         projected = self.clip_projection(seed_tensor[:512])
         image_emb = nn.functional.normalize(projected, p=2, dim=-1)
-        return image_emb, 0.10
+        return image_emb, float(base_anomaly)
 
     @torch.no_grad()
     def encode_multimodal(

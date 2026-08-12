@@ -125,8 +125,8 @@ class PlusIntentGraphEngine(SelfSupervisedIntentGraph):
         """
         base_risk = self.compute_ood_anomaly_score(query_vector)
         
-        # Adjust risk score based on visual anomaly factor
-        composite_risk = min(1.0, max(0.0, base_risk + 0.15 * visual_anomaly_factor))
+        # Composite risk combining topological OOD distance & visual threat anomaly
+        composite_risk = min(1.0, max(0.0, base_risk + 0.35 * visual_anomaly_factor))
         
         details = {
             "topological_risk": float(base_risk),
