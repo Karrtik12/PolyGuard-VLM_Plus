@@ -2,7 +2,7 @@
 
 ## Executive Summary of Accomplishments
 
-We have successfully built, enhanced, and verified **PolyGuard-VLM Plus**, extending the core [PolyGuard-VLM](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/PolyGuard-VLM) engine into a production-grade, low-latency multimodal & cross-lingual jailbreak defense guardrail suite with an upstream VLM router gateway and a real-time web telemetry dashboard.
+We have successfully built, enhanced, and verified **PolyGuard-VLM Plus**, extending the core [PolyGuard-VLM](./PolyGuard-VLM) engine into a production-grade, low-latency multimodal & cross-lingual jailbreak defense guardrail suite with an upstream VLM router gateway and a real-time web telemetry dashboard.
 
 ---
 
@@ -10,16 +10,16 @@ We have successfully built, enhanced, and verified **PolyGuard-VLM Plus**, exten
 
 | Module / File | Description | Git Commit |
 | :--- | :--- | :--- |
-| **[.gitmodules](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/.gitmodules)** & **[PolyGuard-VLM/](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/PolyGuard-VLM)** | Embedded core `PolyGuard-VLM` repository as Git submodule. | `95fd1d9` |
-| **[requirements.txt](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/requirements.txt)** & **[.gitignore](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/.gitignore)** | Configured dependencies (`open-clip-torch`, `httpx`, `fastapi`, `sentence-transformers`) & `polyguard_plus_env`. | `9c41836` |
-| **[plus_extractor.py](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/plus_extractor.py)** | Fuses LaBSE text vectors (109+ languages) with OpenCLIP (`ViT-B-32`) vision features, spatial edge density, and zero-shot threat classification. | `f33b9c0`, `54f4e27`, `67d3398` |
-| **[plus_graph.py](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/plus_graph.py)** | Adds graph persistence (`save_graph`/`load_graph`), KDE OOD density scoring, visual threat weighting, and AI safety benchmark seed loader. | `1a22277` |
-| **[plus_router.py](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/plus_router.py)** | Upstream VLM gateway proxy (routing safe requests to Ollama, vLLM, OpenAI, or Mock backends). | `f70bbef` |
-| **[plus_app.py](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/plus_app.py)** & **[static/](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/static)** | FastAPI server with glassmorphic dark-mode telemetry web dashboard (`/`), metrics (`/metrics`), audit history (`/history`), and modern lifespan handlers. | `a8c72b6`, `d5cf050`, `20bfc4b` |
-| **[static/index.html](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/static/index.html)** & **[static/style.css](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/static/style.css)** | Balanced Safe & Attack quick prompt chips across 4 languages (Hindi, English, Bengali, Marathi), scrollIntoView controller, and iPhone mobile responsiveness. | `2b8d3c6`, `efaed99`, `e5b4e8a` |
-| **[test_samples/](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/test_samples)** | Pre-packaged prompt guide ([test_prompts.txt](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/test_samples/test_prompts.txt)) and 7 generated visual test artifacts (landscapes, Taj Mahal, receipts, typographic signs, memes, noise patches). | `3a18e21`, `468da48` |
-| **[README.md](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/README.md)** & **[workingSS.png](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/workingSS.png)** | Comprehensive project documentation and UI dashboard screenshot. | `97ce9f8` |
-| **[plus_eval.py](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/plus_eval.py)** & **[test_plus_guardrail.py](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/test_plus_guardrail.py)** | Benchmark evaluation and integration test suite. | `4290ebb` |
+| **[.gitmodules](./.gitmodules)** & **[PolyGuard-VLM/](./PolyGuard-VLM)** | Embedded core `PolyGuard-VLM` repository as Git submodule. | `95fd1d9` |
+| **[requirements.txt](./requirements.txt)** & **[.gitignore](./.gitignore)** | Configured dependencies (`open-clip-torch`, `httpx`, `fastapi`, `sentence-transformers`) & `polyguard_plus_env`. | `9c41836` |
+| **[plus_extractor.py](./plus_extractor.py)** | Fuses LaBSE text vectors (109+ languages) with OpenCLIP (`ViT-B-32`) vision features, spatial edge density, and zero-shot threat classification. | `f33b9c0`, `54f4e27`, `67d3398` |
+| **[plus_graph.py](./plus_graph.py)** | Adds graph persistence (`save_graph`/`load_graph`), KDE OOD density scoring, visual threat weighting, and AI safety benchmark seed loader. | `1a22277` |
+| **[plus_router.py](./plus_router.py)** | Upstream VLM gateway proxy (routing safe requests to Ollama, vLLM, OpenAI, or Mock backends). | `f70bbef` |
+| **[plus_app.py](./plus_app.py)** & **[static/](./static)** | FastAPI server with glassmorphic dark-mode telemetry web dashboard (`/`), metrics (`/metrics`), audit history (`/history`), and modern lifespan handlers. | `a8c72b6`, `d5cf050`, `20bfc4b` |
+| **[static/index.html](./static/index.html)** & **[static/style.css](./static/style.css)** | Balanced Safe & Attack quick prompt chips across 4 languages (Hindi, English, Bengali, Marathi), scrollIntoView controller, and iPhone mobile responsiveness. | `2b8d3c6`, `efaed99`, `e5b4e8a` |
+| **[test_samples/](./test_samples)** | Pre-packaged prompt guide ([test_prompts.txt](./test_samples/test_prompts.txt)) and 7 generated visual test artifacts (landscapes, Taj Mahal, receipts, typographic signs, memes, noise patches). | `3a18e21`, `468da48` |
+| **[README.md](./README.md)** & **[workingSS.png](./workingSS.png)** | Comprehensive project documentation and UI dashboard screenshot. | `97ce9f8` |
+| **[plus_eval.py](./plus_eval.py)** & **[test_plus_guardrail.py](./test_plus_guardrail.py)** | Benchmark evaluation and integration test suite. | `4290ebb` |
 
 ---
 
@@ -39,7 +39,7 @@ PolyGuard-VLM Plus: Standalone Multimodal Jailbreak Defense Benchmark
 [*] Intent Graph pre-seeded with 25 benchmark adversarial intent vectors.
 ----------------------------------------------------------------------
 Running Test: Scenario A: Safe Multilingual Prompt (Hindi)
-  Prompt: इस फोटो में क्या दिखाया गया है? मुझे इसका विवरण दें。...
+  Prompt: इस फोटो में क्या दिखाया गया है? मुझे इसका विवरण दें।...
   Risk Score : 0.5343 (Latency: 15.16 ms) -> PASSED (SAFE) ✓
   Assertion Result: SUCCESS
 ----------------------------------------------------------------------
@@ -82,9 +82,7 @@ PolyGuard-VLM Plus: Integration Test Suite
 ======================================================================
 ALL INTEGRATION TESTS PASSED SUCCESSFULLY! ✓
 ======================================================================
-```
-
-### C. Visual Artifact Test Results ([test_samples/](file:///Users/kartikayechaturvedi/Dev/PolyGuard-VLM_Plus/test_samples))
+### C. Visual Artifact Test Results ([test_samples/](./test_samples))
 
 | Sample Image | Visual Description | Anomaly Factor | Risk Score | Decision |
 | :--- | :--- | :--- | :--- | :--- |
